@@ -1,6 +1,5 @@
 # DHCP4 - A DHCP library written in Go.
 
-Warning: This library is still being developed.  Function calls may change.
+Warning: This library is still being developed.  Function calls will change.
 
-See example_test.go for how to use this library to create a basic server.
-
+I've removed Server Functionality, for me this project supports the underlying DHCP format not the implementation.

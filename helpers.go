@@ -6,32 +6,6 @@ import (
 	"time"
 )
 
-// SelectOrderOrAll has same functionality as SelectOrder, except if the order
-// param is nil, whereby all options are added (in arbitary order).
-func (o Options) SelectOrderOrAll(order []byte) []Option {
-	if order == nil {
-		opts := make([]Option, 0, len(o))
-		for i, v := range o {
-			opts = append(opts, Option{Code: i, Value: v})
-		}
-		return opts
-	}
-	return o.SelectOrder(order)
-}
-
-// SelectOrder returns a slice of options ordered and selected by a byte array
-// usually defined by OptionParameterRequestList.  This result is expected to be
-// used in ReplyPacket()'s []Option parameter.
-func (o Options) SelectOrder(order []byte) []Option {
-	opts := make([]Option, 0, len(order))
-	for _, v := range order {
-		if data, ok := o[OptionCode(v)]; ok {
-			opts = append(opts, Option{Code: OptionCode(v), Value: data})
-		}
-	}
-	return opts
-}
-
 // IPRange returns how many ips in the ip range from start to stop (inclusive)
 func IPRange(start, stop net.IP) int {
 	//return int(Uint([]byte(stop))-Uint([]byte(start))) + 1
@@ -82,22 +56,3 @@ func JoinIPs(ips []net.IP) (b []byte) {
 	}
 	return
 }
-
-/*
-// PutUint writes value to a byte slice.
-func PutUint(data []byte, value uint64) {
-	for i := len(data) - 1; i >= 0; i-- {
-		data[i] = byte(value % 256)
-		value /= 256
-	}
-}
-
-// Uint returns a value from a byte slice.
-// Values requiring more than 64bits, won't work correctly
-func Uint(data []byte) (ans uint64) {
-	for _, b := range data {
-		ans <<= 8
-		ans += uint64(b)
-	}
-	return
-}*/
